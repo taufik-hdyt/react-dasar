@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Belajar React</title>
+    <link rel="stylesheet" href="style.css" />
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const container = document.getElementById("root");
+      const root = ReactDOM.createRoot(container);
+
+      //=============PROPS==========
+      // function Header(props) {
+      //   return <h1>Hello {props.author} </h1>;
+      // }
+
+      //==========PROPS DESTRUCTURING===========
+      function Header({ author }) {
+        return <h1>Hay Kamu {author ? author : "Taufik"} </h1>;
+      }
+
+      function MyButton({ text, onClick, counter }) {
+        const disabled =
+          text !== "Reset!"
+            ? counter > 9 || counter < 0
+              ? true
+              : false
+            : counter > 9 || counter < 0
+            ? false
+            : true;
+
+        const myStyle =
+          text !== "Reset!" ? {} : { margin: 20, display: "block" };
+
+        return (
+          <button onClick={onClick} disabled={disabled} style={myStyle}>
+            {text}
+          </button>
+        );
+      }
+
+      function MyCounter({ counter }) {
+        if (counter > 9 || counter < 0) {
+          counter = "done!";
+        }
+
+        return <span style={{ margin: 20 }}>{counter}</span>;
+      }
+
+      function HomePage() {
+        const students = ["andi", "kucrut", "toni", "kucrit"];
+
+        //=======Belajar State=======================
+        const [like, setLike] = React.useState(0);
+        function handleClick() {
+          setLike(like + 1);
+        }
+
+        const [counter, setCounter] = React.useState(0);
+
+        function increment() {
+          setCounter(counter + 1);
+        }
+
+        function decrement() {
+          setCounter(counter - 1);
+        }
+
+        function reset() {
+          setCounter(0);
+        }
+
+        return (
+          <>
+            <Header />
+            <Header author="Dayat" />
+            <p onClick={() => alert("Selamat Anda Berhasil")}>
+              Belajar React Itu Mudah Dan Menyenangkan Ayo Semangat
+            </p>
+            <ul>
+              {students.map((student) => (
+                <li key={student}>{student}</li>
+              ))}
+            </ul>
+
+            <button onClick={handleClick}>Like ({like})</button>
+
+            <div className="hitung">
+              <MyButton text={"-"} onClick={decrement} counter={counter} />
+              <MyCounter counter={counter} />
+              <MyButton text={"+"} onClick={increment} counter={counter} />
+
+              <MyButton text={"Reset!"} onClick={reset} counter={counter} />
+            </div>
+          </>
+        );
+      }
+
+      root.render(
+        <>
+          <HomePage />
+        </>
+      );
+    </script>
+  </body>
+</html>
